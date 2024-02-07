@@ -105,6 +105,14 @@
                     </meta-data>
                 </json-formatter>
             </formatter>
+            <formatter name="json">
+                <json-formatter pretty-print="true">
+                    <exception-output-type value="formatted"/>
+                    <meta-data>
+                        <property name="application" value="demo"/>
+                    </meta-data>
+                </json-formatter>
+            </formatter>            
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:batch-jberet:2.0">
             <default-job-repository name="in-memory"/>
