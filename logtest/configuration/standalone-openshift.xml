@@ -72,7 +72,7 @@
         <subsystem xmlns="urn:jboss:domain:logging:8.0">
             <console-handler name="CONSOLE">
                 <formatter>
-                    <named-formatter name="json"/>
+                    <named-formatter name="OPENSHIFT"/>
                 </formatter>
             </console-handler>
             <logger category="com.arjuna">
