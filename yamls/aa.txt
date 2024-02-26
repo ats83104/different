@@ -1,0 +1,14 @@
+SELinux record
+
+oc -n openshift-security-profiles patch spod spod --type=merge -p '{"spec":{"enableLogEnricher":true}}'
+oc -n openshift-security-profiles logs -f ds/spod log-enricher
+
+oc -n openshift-security-profiles logs --since=1m --selector name=spod -c log-enricher
+
+oc get selinuxprofiles -lspo.x-k8s.io/recording-id=test-recording -n security-test
+
+
+oc label ns security-test spo.x-k8s.io/enable-recording=true
+
+oc -n openshift-security-profiles logs --since=1m --selector name=spod -c log-enricher
+oc get selinuxprofiles -lspo.x-k8s.io/recording-id=test-recording -n security-test

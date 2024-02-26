@@ -1,0 +1,28 @@
+﻿kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  name: demo
+  namespace: security-test
+  labels:
+    app: demo
+    app.kubernetes.io/component: demo
+    app.kubernetes.io/instance: demo
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'demo:latest'
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: security-test
+        name: 'eap74-openjdk17-openshift-rhel8:7.4.15-2'
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/ats83104/different.git'
+    contextDir: logtest

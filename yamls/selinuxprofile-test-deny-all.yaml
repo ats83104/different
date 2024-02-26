@@ -1,0 +1,12 @@
+﻿apiVersion: security-profiles-operator.x-k8s.io/v1alpha2
+kind: SelinuxProfile
+metadata:
+  name: test-deny-all
+  namespace: security-test
+  labels:
+    spo.x-k8s.io/profile-id: SelinuxProfile-test1
+spec:
+  inherit:
+    - kind: System
+      name: container
+  permissive: false

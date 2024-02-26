@@ -1,0 +1,8 @@
+﻿kind: Project
+apiVersion: project.openshift.io/v1
+metadata:
+  name: security-test
+  labels:
+    kubernetes.io/metadata.name: test
+  annotations:
+spec:

@@ -1,0 +1,14 @@
+﻿kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  name: demo
+  namespace: security-test
+  labels:
+    app: demo
+    app.kubernetes.io/component: demo
+    app.kubernetes.io/instance: demo
+spec:
+  lookupPolicy:
+    local: false
