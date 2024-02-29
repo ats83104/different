@@ -1,0 +1,33 @@
+﻿apiVersion: security-profiles-operator.x-k8s.io/v1alpha2
+kind: SelinuxProfile
+metadata:
+  name: allow
+  namespace: security-test
+  labels:
+    spo.x-k8s.io/profile-id: SelinuxProfile-test1
+spec:
+  allow:
+    '@self':
+      tcp_socket:
+        - listen
+    http_cache_port_t:
+      tcp_socket:
+        - name_bind
+    http_port_t:
+      tcp_socket:
+        - name_connect
+    jboss_management_port_t:
+      tcp_socket:
+        - name_bind
+        - name_connect
+    node_t:
+      tcp_socket:
+        - node_bind
+    unreserved_port_t:
+      tcp_socket:
+        - name_bind
+  disabled: false
+  inherit:
+    - kind: System
+      name: container
+  permissive: false    

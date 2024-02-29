@@ -1,0 +1,20 @@
+﻿kind: Pod
+apiVersion: v1
+metadata:
+  name: demo-pod
+  namespace: security-test
+  labels:
+    app: demo
+spec:
+  containers:
+    - resources: {}
+      name: demo
+      ports:
+        - containerPort: 8778
+          protocol: TCP
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+      image: >-
+        image-registry.openshift-image-registry.svc:5000/security-test/demo@sha256:2bcfd777059485a3b07d7e7cb2137ec6d9bec483bf4837ae143716dcbc6515e1

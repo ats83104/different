@@ -9,6 +9,17 @@ oc get selinuxprofiles -lspo.x-k8s.io/recording-id=test-recording -n security-te
 
 
 oc label ns security-test spo.x-k8s.io/enable-recording=true
+oc label ns security-test spo.x-k8s.io/enable-recording=false
+oc label ns security-test pod-security.kubernetes.io/enforce=privileged
+oc label ns security-test security.openshift.io/scc.podSecurityLabelSync=false
 
 oc -n openshift-security-profiles logs --since=1m --selector name=spod -c log-enricher
 oc get selinuxprofiles -lspo.x-k8s.io/recording-id=test-recording -n security-test
+
+oc label ns security-test security.openshift.io/scc.podSecurityLabelSync=false pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/warn=privileged --overwrite=true
+
+
+oc -n openshift-security-profiles rsh -c selinuxd ds/spod
+
+ls /etc/selinux.d
+test-recording-demo-ktnkg_security-test.cil

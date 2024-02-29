@@ -25,7 +25,7 @@ spec:
       serviceAccountName: spo-deploy-sa
       securityContext:
         seLinuxOptions:
-          type: test-deny-all_security-test.process      
+          type: allow_security-test.process      
       containers:
         - name: demo
           image: >-

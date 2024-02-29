@@ -22,10 +22,7 @@ spec:
       annotations:
         openshift.io/generated-by: OpenShiftNewApp
     spec:
-      serviceAccountName: spo-deploy-sa
-      securityContext:
-        seLinuxOptions:
-          type: test-deny-all_security-test.process      
+      serviceAccountName: spo-record-sa
       containers:
         - name: demo
           image: >-
@@ -37,3 +34,4 @@ spec:
               protocol: TCP
             - containerPort: 8443
               protocol: TCP
+      securityContext: {}

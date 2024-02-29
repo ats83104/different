@@ -8,4 +8,4 @@ spec:
   recorder: logs
   podSelector:
     matchLabels:
-      app: demo
+      deployment: demo
