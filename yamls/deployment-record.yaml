@@ -22,7 +22,7 @@ spec:
       annotations:
         openshift.io/generated-by: OpenShiftNewApp
     spec:
-      serviceAccountName: spo-record-sa
+      serviceAccountName: spo-deploy-sa
       containers:
         - name: demo
           image: >-
