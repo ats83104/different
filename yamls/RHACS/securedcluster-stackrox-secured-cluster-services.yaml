@@ -1,0 +1,72 @@
+﻿apiVersion: platform.stackrox.io/v1alpha1
+kind: SecuredCluster
+metadata:
+  name: stackrox-secured-cluster-services
+  namespace: stackrox
+spec:
+  monitoring:
+    openshift:
+      enabled: true
+  auditLogs:
+    collection: Auto
+  admissionControl:
+    listenOnUpdates: true
+    resources:
+      limits:
+        cpu: 200m
+      requests:
+        cpu: 200m
+    bypass: BreakGlassAnnotation
+    contactImageScanners: DoNotScanInline
+    listenOnCreates: true
+    replicas: 3
+    timeoutSeconds: 20
+    listenOnEvents: true
+  sensor:
+    resources:
+      limits:
+        cpu: 200m
+      requests:
+        cpu: 200m
+  scanner:
+    analyzer:
+      resources:
+        limits:
+          cpu: 200m
+        requests:
+          cpu: 200m
+      scaling:
+        autoScaling: Enabled
+        maxReplicas: 5
+        minReplicas: 2
+        replicas: 3
+    db:
+      resources:
+        limits:
+          cpu: 200m
+        requests:
+          cpu: 200m
+    scannerComponent: AutoSense
+  perNode:
+    collector:
+      collection: EBPF
+      imageFlavor: Regular
+      resources:
+        limits:
+          cpu: 200m
+        requests:
+          cpu: 200m
+    compliance:
+      resources:
+        limits:
+          cpu: 200m
+        requests:
+          cpu: 200m
+    nodeInventory:
+      resources:
+        limits:
+          cpu: 200m
+        requests:
+          cpu: 200m
+    taintToleration: TolerateTaints
+  clusterName: my-cluster
