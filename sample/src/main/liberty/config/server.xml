@@ -18,5 +18,5 @@
 
     <applicationMonitor updateTrigger="mbean"/>
 
-    <webApplication id="sample" location="sample-0.0.1-SNAPSHOT.war" name="sample"/>
+    <webApplication id="sample" location="sample.war" name="sample" contextRoot="sample"/>
 </server>
