@@ -1,6 +1,6 @@
 #FROM icr.io/appcafe/websphere-liberty:24.0.0.6-full-java8-openj9-ubi
 #FROM websphere-liberty:latest
-FROM default-route-openshift-image-registry.apps-crc.testing/test/different/websphere-liberty:latest
+FROM default-route-openshift-image-registry.apps-crc.testing/test/websphere-liberty:latest
 
 # Default setting for the verbose option. Set it to true to debug the application container image build failures
 ARG VERBOSE=false
