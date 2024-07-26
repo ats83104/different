@@ -6,12 +6,12 @@ metadata:
   name: sample
   namespace: test
   labels:
-    build: sample
+    app: sample
 spec:
   output:
     to:
       kind: ImageStreamTag
-      name: sample:latest
+      name: 'sample:latest'
   resources: {}
   strategy:
     type: Docker

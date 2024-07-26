@@ -3,10 +3,10 @@ apiVersion: build.openshift.io/v1
 metadata:
   annotations:
     openshift.io/generated-by: OpenShiftNewBuild
-  name: sample
+  name: sample-2
   namespace: test
   labels:
-    build: sample_2
+    app: sample-2
 spec:
   triggers:
     - type: ImageChange
