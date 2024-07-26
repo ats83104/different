@@ -6,22 +6,20 @@ metadata:
   name: sample
   namespace: test
   labels:
-    build: sample
+    build: sample_2
 spec:
+  triggers:
+    - type: ImageChange
+      imageChange:
+        from:
+          kind: ImageStreamTag
+          name: sample:latest	
   output:
     to:
       kind: DockerImage
       name: quay.io/at83104/sample
-  resources: {}
   strategy:
-    type: Docker
-    dockerStrategy:
+    sourceStrategy:
       from:
         kind: ImageStreamTag
-        name: 'websphere-liberty:24.0.0.6'
-  postCommit: {}
-  source:
-    type: Git
-    git:
-      uri: 'https://github.com/ats83104/different.git'
-    contextDir: sample
+        name: 'sample:latest'

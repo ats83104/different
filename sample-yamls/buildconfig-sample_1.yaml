@@ -1,0 +1,27 @@
+﻿kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  name: sample
+  namespace: test
+  labels:
+    build: sample
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: sample:latest
+  resources: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'websphere-liberty:24.0.0.6'
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/ats83104/different.git'
+    contextDir: sample
