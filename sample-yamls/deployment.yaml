@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"sample:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"sample\")].image"}]'
+    openshift.io/generated-by: OpenShiftNewApp
+  labels:
+    app: sample
+    app.kubernetes.io/component: sample
+    app.kubernetes.io/instance: sample
+  name: sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: sample
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        deployment: sample
+    spec:
+      containers:
+      - image: ' '
+        name: sample
+        ports:
+        - containerPort: 9080
+          protocol: TCP
+        - containerPort: 9443
+          protocol: TCP
+        resources: {}
