@@ -697,7 +697,7 @@
 		<socket-binding name="ajp" interface="bindall"
 			port="${jboss.ajp.port:8009}" />
 		<socket-binding name="http" interface="bindall"
-			port="${jboss.http.port:8080}" />
+			port="${jboss.http.port:9080}" />
 		<socket-binding name="https" interface="bindall"
 			port="${jboss.https.port:8443}" />
 		<socket-binding name="jgroups-mping"
@@ -723,7 +723,7 @@
 		<outbound-socket-binding name="http-messaging">
 			<remote-destination
 				host="${jboss.messaging.host:localhost}"
-				port="${jboss.http.port:8080}" />
+				port="${jboss.http.port:9080}" />
 		</outbound-socket-binding>
 		<outbound-socket-binding name="mail-smtp">
 			<remote-destination
