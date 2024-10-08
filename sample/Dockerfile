@@ -13,7 +13,7 @@ COPY --chown=1001:0  ./src/main/liberty/config/server.xml /config/
 #COPY --chown=1001:0 featureUtility.properties /opt/ibm/wlp/etc/
 
 # This script will add the requested XML snippets to enable Liberty features and grow the image to be fit-for-purpose using featureUtility.
-RUN features.sh
+#RUN features.sh
 
 # Add interim fixes (optional)
 #COPY --chown=1001:0  interim-fixes /opt/ibm/fixes/
