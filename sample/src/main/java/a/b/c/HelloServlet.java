@@ -15,6 +15,7 @@ public class HelloServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
+		System.out.println("AAAAAAAAA");
 	        response.getWriter().append("Hello! How are you today?\n");
 	    }
 
