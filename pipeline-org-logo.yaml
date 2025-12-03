@@ -1,0 +1,166 @@
+﻿apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Pipeline","metadata":{"annotations":{},"name":"org-logo","namespace":"policy-pipeline"},"spec":{"params":[{"default":"https://git.ocp4.example.com/do0003l/policy-pipeline.git","description":"The application Git repository","name":"GIT_REPO","type":"string"},{"default":"main","description":"The application Git revision","name":"GIT_REVISION","type":"string"},{"default":"resources/org-logo.yaml","description":"The OpenShift resource file for deploying the application","name":"RESOURCE_FILE","type":"string"},{"default":"registry.ocp4.example.com:8443/developer/policy-pipeline","description":"The container image name, without the tag","name":"IMAGE_BASE_NAME","type":"string"},{"default":"1.0.0","description":"The tag to add to the container image","name":"IMAGE_TAG","type":"string"},{"default":"policy-pipeline","description":"Namespace in which the application must be deployed","name":"NAMESPACE","type":"string"}],"tasks":[{"name":"fetch-repository","params":[{"name":"gitInitImage","value":"registry.ocp4.example.com:8443/openshift-pipelines/pipelines-git-init-rhel8:v1.16.1-1"},{"name":"url","value":"$(params.GIT_REPO)"},{"name":"revision","value":"$(params.GIT_REVISION)"},{"name":"subdirectory","value":""},{"name":"deleteExisting","value":"true"},{"name":"sslVerify","value":"false"}],"taskRef":{"kind":"ClusterTask","name":"git-clone"},"workspaces":[{"name":"output","workspace":"workspace"}]},{"name":"build","params":[{"name":"BUILDER_IMAGE","value":"registry.ocp4.example.com:8443/rhel8/buildah:8.10"},{"name":"IMAGE","value":"$(params.IMAGE_BASE_NAME):$(params.IMAGE_TAG)"},{"name":"TLSVERIFY","value":"false"},{"name":"CONTEXT","value":"."},{"name":"PUSH_EXTRA_ARGS","value":"--retry=10"}],"runAfter":["fetch-repository"],"taskRef":{"kind":"ClusterTask","name":"buildah"},"workspaces":[{"name":"source","workspace":"workspace"},{"name":"dockerconfig","workspace":"dockerconfig-secret"}]},{"name":"image-scan","params":[{"name":"image","value":"$(params.IMAGE_BASE_NAME)"},{"name":"image_digest","value":"$(tasks.build.results.IMAGE_DIGEST)"},{"name":"rox_api_token","value":"roxsecrets"},{"name":"rox_central_endpoint","value":"roxsecrets"},{"name":"output_format","value":"table"}],"runAfter":["build"],"taskRef":{"name":"rhacs-image-scan"}},{"name":"image-check","params":[{"name":"image","value":"$(params.IMAGE_BASE_NAME)"},{"name":"image_digest","value":"$(tasks.build.results.IMAGE_DIGEST)"},{"name":"rox_api_token","value":"roxsecrets"},{"name":"rox_central_endpoint","value":"roxsecrets"}],"runAfter":["build"],"taskRef":{"name":"rhacs-image-check"}},{"name":"deploy-check","params":[{"name":"rox_api_token","value":"roxsecrets"},{"name":"rox_central_endpoint","value":"roxsecrets"},{"name":"file","value":"$(params.RESOURCE_FILE)"}],"runAfter":["build"],"taskRef":{"name":"rhacs-deployment-check"},"workspaces":[{"name":"workspace","workspace":"workspace"}]},{"name":"deploy","params":[{"name":"NAMESPACE","value":"$(params.NAMESPACE)"},{"name":"RESOURCE_FILE","value":"$(params.RESOURCE_FILE)"},{"name":"IMAGE","value":"$(params.IMAGE_BASE_NAME)@$(tasks.build.results.IMAGE_DIGEST)"}],"runAfter":["image-scan","image-check","deploy-check"],"taskRef":{"name":"openshift-deploy"},"workspaces":[{"name":"workspace","workspace":"workspace"}]}],"workspaces":[{"name":"workspace"},{"name":"dockerconfig-secret"}]}}
+  creationTimestamp: '2025-12-02T11:24:22Z'
+  generation: 1
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+        'f:spec':
+          .: {}
+          'f:params': {}
+          'f:tasks': {}
+          'f:workspaces': {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: '2025-12-02T11:24:22Z'
+  name: org-logo
+  namespace: policy-pipeline
+  resourceVersion: '455504'
+  uid: f5164b0d-36ce-4eae-afa5-cc11e09e009c
+spec:
+  params:
+    - default: 'https://git.ocp4.example.com/do0003l/policy-pipeline.git'
+      description: The application Git repository
+      name: GIT_REPO
+      type: string
+    - default: main
+      description: The application Git revision
+      name: GIT_REVISION
+      type: string
+    - default: resources/org-logo.yaml
+      description: The OpenShift resource file for deploying the application
+      name: RESOURCE_FILE
+      type: string
+    - default: 'registry.ocp4.example.com:8443/developer/policy-pipeline'
+      description: 'The container image name, without the tag'
+      name: IMAGE_BASE_NAME
+      type: string
+    - default: 1.0.0
+      description: The tag to add to the container image
+      name: IMAGE_TAG
+      type: string
+    - default: policy-pipeline
+      description: Namespace in which the application must be deployed
+      name: NAMESPACE
+      type: string
+  tasks:
+    - name: fetch-repository
+      params:
+        - name: gitInitImage
+          value: 'registry.ocp4.example.com:8443/openshift-pipelines/pipelines-git-init-rhel8:v1.16.1-1'
+        - name: url
+          value: $(params.GIT_REPO)
+        - name: revision
+          value: $(params.GIT_REVISION)
+        - name: subdirectory
+          value: ''
+        - name: deleteExisting
+          value: 'true'
+        - name: sslVerify
+          value: 'false'
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: build
+      params:
+        - name: BUILDER_IMAGE
+          value: 'registry.ocp4.example.com:8443/rhel8/buildah:8.10'
+        - name: IMAGE
+          value: '$(params.IMAGE_BASE_NAME):$(params.IMAGE_TAG)'
+        - name: TLSVERIFY
+          value: 'false'
+        - name: CONTEXT
+          value: .
+        - name: PUSH_EXTRA_ARGS
+          value: '--retry=10'
+      runAfter:
+        - fetch-repository
+      taskRef:
+        kind: ClusterTask
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: dockerconfig
+          workspace: dockerconfig-secret
+    - name: image-scan
+      params:
+        - name: image
+          value: $(params.IMAGE_BASE_NAME)
+        - name: image_digest
+          value: $(tasks.build.results.IMAGE_DIGEST)
+        - name: rox_api_token
+          value: roxsecrets
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: output_format
+          value: table
+      runAfter:
+        - build
+      taskRef:
+        kind: Task
+        name: rhacs-image-scan
+    - name: image-check
+      params:
+        - name: image
+          value: $(params.IMAGE_BASE_NAME)
+        - name: image_digest
+          value: $(tasks.build.results.IMAGE_DIGEST)
+        - name: rox_api_token
+          value: roxsecrets
+        - name: rox_central_endpoint
+          value: roxsecrets
+      runAfter:
+        - build
+      taskRef:
+        kind: Task
+        name: rhacs-image-check
+    - name: deploy-check
+      params:
+        - name: rox_api_token
+          value: roxsecrets
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: file
+          value: $(params.RESOURCE_FILE)
+      runAfter:
+        - build
+      taskRef:
+        kind: Task
+        name: rhacs-deployment-check
+      workspaces:
+        - name: workspace
+          workspace: workspace
+    - name: deploy
+      params:
+        - name: NAMESPACE
+          value: $(params.NAMESPACE)
+        - name: RESOURCE_FILE
+          value: $(params.RESOURCE_FILE)
+        - name: IMAGE
+          value: $(params.IMAGE_BASE_NAME)@$(tasks.build.results.IMAGE_DIGEST)
+      runAfter:
+        - image-scan
+        - image-check
+        - deploy-check
+      taskRef:
+        kind: Task
+        name: openshift-deploy
+      workspaces:
+        - name: workspace
+          workspace: workspace
+  workspaces:
+    - name: workspace
+    - name: dockerconfig-secret
